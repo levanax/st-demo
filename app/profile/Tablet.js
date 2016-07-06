@@ -6,13 +6,13 @@ Ext.define('TestApp.profile.Tablet', {
     	controllers:[
 	        'SignIn'
 	    ],
-    	views:['SignIn']
+    	views:['SignIn','ContactList']
     },
     isActive: function() {
         return Ext.os.is.Tablet;
     },
     launch: function() {
-    	Ext.Viewport.add(Ext.create('TestApp.view.tablet.SignIn'));
+    	Ext.Viewport.add({xtype:'contactListView'});
         this.callParent();
     }
 });

@@ -26,6 +26,7 @@ Ext.application({
         'SignIn'
     ],
     views: [
+        'ContactList'
     ],
 
     isIconPrecomposed: true,

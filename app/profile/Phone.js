@@ -12,7 +12,7 @@ Ext.define('TestApp.profile.Phone', {
         return Ext.os.is.Phone; 
     },
     launch: function() {
-    	Ext.Viewport.add(Ext.create('TestApp.view.phone.SignIn'));
+    	Ext.Viewport.add({xtype:'contactListView'});
         this.callParent();
     }
 });
