@@ -21,8 +21,17 @@ Ext.define('TestApp.view.phone.SignIn', {
                     xtype: 'textfield',
                     name : 'lastName',
                     label: 'Last Name'
+                },{
+                    xtype: 'button',
+                    itemId:'jumpHomeBtn',
+                    ui:'forward',
+                    text: 'Jump to other view.'
                 }
             ]
+        },
+        {
+            xtype: 'container',
+            html:'this is phone view.'
         }]
     }
 });

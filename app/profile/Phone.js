@@ -4,7 +4,7 @@ Ext.define('TestApp.profile.Phone', {
     ],
     config:{
     	controllers:[
-	        'SignIn'
+	        'SignIn','SignInTest'
 	    ],
     	views:['SignIn']
     },

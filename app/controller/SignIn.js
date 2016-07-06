@@ -1,10 +1,15 @@
 Ext.define('TestApp.controller.SignIn', {
-    extend: 'Ext.app.Controller',
+    extend: 'TestApp.controller.Base',
     requires: [
     ],
     config: {
         refs:{
-            signInView:'signInView'
+            jumpHomeBtn:'button[itemId=jumpHomeBtn]',
+            signInView:{
+                selector:'signInView',
+                xtype:'signInView',
+                autoCreate:true
+            }
         }
     }
 });

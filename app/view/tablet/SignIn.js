@@ -22,6 +22,15 @@ Ext.define('TestApp.view.tablet.SignIn', {
             xtype: 'passwordfield',
             name: 'password',
             label: 'Password'
+        },{
+            xtype: 'button',
+            itemId:'jumpHomeBtn',
+            ui:'forward',
+            text: 'Jump to other view.'
+        },
+        {
+            xtype: 'container',
+            html:'this is tablet view.'
         }]
     }
 });

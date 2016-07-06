@@ -23,9 +23,10 @@ Ext.application({
         '144': 'resources/icons/Icon~ipad@2x.png'
     },
     controllers:[
-        'SignIn'
+        'SignIn','Home'
     ],
     views: [
+        'Home'
     ],
 
     isIconPrecomposed: true,
