@@ -4,6 +4,8 @@ Ext.define('TestApp.view.Home', {
     requires: [
     ],
     config: {
+        layout: 'fit',
+        fullscreen: true,
     	items:[{
     		xtype:'container',
         	html:"this is home view ."
@@ -12,6 +14,10 @@ Ext.define('TestApp.view.Home', {
             itemId:'jumpSignInView',
             ui:'forward',
             text: 'Jump to other view.'
+        },{
+            useCompatMultiPlate:true,
+            xclassPhone:'TestApp.view.phone.SignIn',
+            xclassTablet:'TestApp.view.tablet.SignIn'
         }]
     }
 });

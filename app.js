@@ -14,7 +14,8 @@ Ext.application({
     name: 'TestApp',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'TestApp.ux.Container'
     ],
     icon: {
         '57': 'resources/icons/Icon.png',
