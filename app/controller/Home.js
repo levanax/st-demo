@@ -12,7 +12,7 @@ Ext.define('TestApp.controller.Home', {
         control:{
             jumpSignInView:{
                 tap:function(){
-                    this.redirectTo('signIn');
+                    this.redirectTo('kLineChart');
                 }
             }
         }

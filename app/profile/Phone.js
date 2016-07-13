@@ -4,9 +4,9 @@ Ext.define('TestApp.profile.Phone', {
     ],
     config:{
     	controllers:[
-	        'SignIn','SignInTest'
+	        'SignIn','SignInTest','KLineChart'
 	    ],
-    	views:['SignIn']
+    	views:['SignIn','KLineChart']
     },
     isActive: function() {
         return Ext.os.is.Phone; 
