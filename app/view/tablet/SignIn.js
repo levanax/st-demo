@@ -1,6 +1,6 @@
 Ext.define('TestApp.view.tablet.SignIn', {
     extend: 'Ext.form.Panel',
-    xtype: 'signInView',
+    xtype: 'signInTabletView',
     requires: [
         'Ext.field.Password',
         'Ext.field.Email'

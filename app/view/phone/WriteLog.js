@@ -1,31 +1,33 @@
-Ext.define('TestApp.view.phone.SignIn', {
+Ext.define('TestApp.view.phone.WriteLog', {
     extend: 'Ext.form.Panel',
-    xtype: 'signInPhoneView',
+    xtype: 'writeLogView',
     requires: [
         'Ext.form.FieldSet'
     ],
     config: {
         tabBarPosition: 'bottom',
-
+        padding:'10 10 10 10',
         items: [{
             xtype: 'fieldset',
-            title: 'About You',
+            title: 'Log edit',
             instructions: 'Tell us all about yourself',
             items: [
                 {
                     xtype: 'textfield',
-                    name : 'firstName',
-                    label: 'First Name'
+                    name : 'subject',
+                    label: 'Subject'
                 },
                 {
-                    xtype: 'textfield',
-                    name : 'lastName',
-                    label: 'Last Name'
+                    xtype: 'textareafield',
+                    maxRows: 6,
+                    name : 'content',
+                    label: 'Content'
                 },{
+                    margin:'10 0',
                     xtype: 'button',
-                    itemId:'jumpHomeBtn',
-                    ui:'forward',
-                    text: 'Jump to other view.'
+                    itemId:'saveBtn',
+                    ui:'normal',
+                    text: 'Save'
                 }
             ]
         },

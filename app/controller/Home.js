@@ -12,6 +12,9 @@ Ext.define('TestApp.controller.Home', {
         control:{
             jumpSignInView:{
                 tap:function(){
+                    var userService = Ext.create('TestApp.service.User');
+                    console.log(userService.test());
+
                     this.redirectTo('signIn');
                 }
             }

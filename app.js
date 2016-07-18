@@ -14,7 +14,8 @@ Ext.application({
     name: 'TestApp',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'TestApp.service.User'
     ],
     icon: {
         '57': 'resources/icons/Icon.png',
@@ -23,7 +24,8 @@ Ext.application({
         '144': 'resources/icons/Icon~ipad@2x.png'
     },
     controllers:[
-        'SignIn','Home'
+        'system.Initialize',
+        'Home'
     ],
     views: [
         'Home'

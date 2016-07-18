@@ -4,15 +4,15 @@ Ext.define('TestApp.profile.Phone', {
     ],
     config:{
     	controllers:[
-	        'SignIn','SignInTest'
+	        'SignIn','WriteLog'
 	    ],
-    	views:['SignIn']
+    	views:['SignIn','WriteLog']
     },
     isActive: function() {
         return Ext.os.is.Phone; 
     },
     launch: function() {
-    	Ext.Viewport.add(Ext.create('TestApp.view.phone.SignIn'));
+    	Ext.Viewport.add(Ext.create('TestApp.view.phone.WriteLog'));
         this.callParent();
     }
 });
