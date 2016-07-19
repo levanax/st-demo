@@ -9,6 +9,9 @@ Ext.define('TestApp.controller.Base', {
         		xtype:'homeView',
                 autoCreate:true
         	}
+        },
+        routes: {
+            '': 'goHomeView'
         }
     },
     init:function(){
@@ -23,10 +26,17 @@ Ext.define('TestApp.controller.Base', {
     },
     /**
      * 切换视图
+    *  @public
      * @param view
      */
     changeView:function(view){
         "use strict";
         Ext.Viewport.animateActiveItem(view,{});
+    },
+    /**
+    * @private
+    **/
+    goHomeView:function(){
+        this.changeView(Ext.create('TestApp.view.Home'));
     }
 });

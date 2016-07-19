@@ -5,8 +5,9 @@ Ext.define('TestApp.view.Home', {
     config: {
         padding:'10 10',
         items: [{
-            xtype: 'container',
-            html: "this is home view ."
+            xtype : 'toolbar',
+            docked: 'top',
+            title: 'Home'
         }, {
             xtype: 'button',
             itemId: 'nomalSignOn',

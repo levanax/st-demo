@@ -18,7 +18,6 @@ Ext.define('TestApp.controller.Home', {
                     view.on({
                         tap: function(button, e, eOpts) {
                             var btnItemId = button.getItemId();
-                            this.redirectTo('signIn');
                             var model = 'nomal';
                             if(btnItemId === 'safetySignOn'){
                                 model = 'safety';

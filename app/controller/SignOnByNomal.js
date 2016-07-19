@@ -12,7 +12,6 @@ Ext.define('TestApp.controller.SignOnByNomal', {
         control:{
             signOnByNomalView:{
                 initialize: function(view, eOpts) {
-                    console.log('in initialize signOnByNomalView ...');
                 }
             }
         }

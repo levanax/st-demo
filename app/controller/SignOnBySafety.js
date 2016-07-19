@@ -5,14 +5,13 @@ Ext.define('TestApp.controller.SignOnBySafety', {
         refs: {
             signOnBySafetyView: {
                 selector: 'signOnBySafetyView',
-                xtype: 'signOnBySafetyView',
-                autoCreate: true
+                xtype: 'signOnBySafetyView'
             }
         },
         control: {
-            signOnBySafetyView11: {
+            signOnBySafetyView: {
                 initialize: function(view, eOpts) {
-                    console.log('in initialize signOnBySafetyView ...');
+                    
                 }
             }
         }

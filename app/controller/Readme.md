@@ -1,2 +1,5 @@
 
-TestApp.controller.SignIn 只能写 refs 属性，如果写入Control 被继承后，会多次添加事件
+
+
+*Base.js ,作该类视图主控制器，<br/>
+然后写不同的子类.js 实现不同模式控制器
