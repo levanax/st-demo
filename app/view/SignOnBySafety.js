@@ -7,7 +7,7 @@ Ext.define('TestApp.view.SignOnBySafety', {
         items: [{
             xtype: 'toolbar',
             docked: 'top',
-            title: 'Sign In'
+            title: 'Sign On'
         }, {
             xtype: 'fieldset',
             title: 'Safety model login system',

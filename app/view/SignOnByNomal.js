@@ -7,7 +7,7 @@ Ext.define('TestApp.view.SignOnByNomal', {
         items: [{
             xtype: 'toolbar',
             docked: 'top',
-            title: 'Sign In'
+            title: 'Sign On'
         }, {
             xtype: 'fieldset',
             title: 'Login system',

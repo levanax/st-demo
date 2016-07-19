@@ -11,7 +11,7 @@ Ext.define('TestApp.controller.Base', {
         	}
         },
         routes: {
-            '': 'goHomeView'
+            // '': 'goHomeView'
         }
     },
     init:function(){
