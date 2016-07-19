@@ -22,7 +22,7 @@ Ext.define('TestApp.controller.phone.SignIn', {
             },
             jumpHomeBtn:{
                 tap:function(){
-                    this.redirectTo('home');
+                    this.redirectTo('signOn');
                 }
             }
         }

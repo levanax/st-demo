@@ -1,26 +1,42 @@
 Ext.define('TestApp.controller.Home', {
     extend: 'TestApp.controller.Base',
-    requires: [
-    ],
+    requires: [],
     config: {
-        refs:{
-            jumpSignInView:'button[itemId=jumpSignInView]'
+        refs: {
+            homeView: {
+                selector: 'homeView',
+                xtype: 'homeView'
+            }
         },
-        routes:{
-            'home':'goHomeView'
+        routes: {
+            'home': 'goHomeView'
         },
-        control:{
-            jumpSignInView:{
-                tap:function(){
-                    var userService = Ext.create('TestApp.service.User');
-                    console.log(userService.test());
+        control: {
+            homeView: {
+                initialize: function(view, eOpts) {
 
-                    this.redirectTo('signIn');
+                    view.on({
+                        tap: function(button, e, eOpts) {
+                            var btnItemId = button.getItemId();
+                            this.redirectTo('signIn');
+                            var model = 'nomal';
+                            if(btnItemId === 'safetySignOn'){
+                                model = 'safety';
+                            }
+                            
+                            this.redirectTo('signOn/'+model);
+                        },
+                        delegate: '> button',
+                        scope: this
+                    })
+
+                    // var userService = Ext.create('TestApp.service.User');
+                    // console.log(userService.test());
                 }
             }
         }
     },
-    goHomeView:function() {
-        this.changeView(this.getHomeView());
+    goHomeView: function() {
+        this.changeView(Ext.create('TestApp.view.Home'));
     }
 });

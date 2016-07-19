@@ -25,10 +25,14 @@ Ext.application({
     },
     controllers:[
         'system.Initialize',
-        'Home'
+        'Home',
+        'SignOnByNomal',
+        'SignOnBySafety'
     ],
     views: [
-        'Home'
+        'Home',
+        'SignOnByNomal',
+        'SignOnBySafety'
     ],
 
     isIconPrecomposed: true,

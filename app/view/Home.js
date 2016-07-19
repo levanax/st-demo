@@ -1,17 +1,23 @@
 Ext.define('TestApp.view.Home', {
     extend: 'Ext.Container',
     xtype: 'homeView',
-    requires: [
-    ],
+    requires: [],
     config: {
-    	items:[{
-    		xtype:'container',
-        	html:"this is home view ."
-    	},{
+        padding:'10 10',
+        items: [{
+            xtype: 'container',
+            html: "this is home view ."
+        }, {
             xtype: 'button',
-            itemId:'jumpSignInView',
-            ui:'forward',
-            text: 'Jump to other view.'
+            itemId: 'nomalSignOn',
+            ui: 'forward',
+            text: 'SignOn by nomal'
+        }, {
+            margin:'10 0',
+            xtype: 'button',
+            itemId: 'safetySignOn',
+            ui: 'forward',
+            text: 'SignOn by safety'
         }]
     }
 });
