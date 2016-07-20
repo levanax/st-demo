@@ -23,7 +23,7 @@ Ext.application({
         '114': 'resources/icons/Icon@2x.png',
         '144': 'resources/icons/Icon~ipad@2x.png'
     },
-    controllers:[
+    controllers: [
         'system.Initialize',
         'Home',
         'SignOnByNomal',
@@ -33,6 +33,13 @@ Ext.application({
         'Home',
         'SignOnByNomal',
         'SignOnBySafety'
+    ],
+    models: [
+        'PersViews',
+        'Pers'
+    ],
+    stores: [
+        'Pers'
     ],
 
     isIconPrecomposed: true,
@@ -46,9 +53,8 @@ Ext.application({
         '1496x2048': 'resources/startup/1496x2048.png'
     },
     profiles: ['Phone', 'Tablet'],
-    launch: function() {
-    },
-    
+    launch: function() {},
+
 
     onUpdated: function() {
         Ext.Msg.confirm(
