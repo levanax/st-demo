@@ -6,8 +6,8 @@ Ext.define('TestApp.view.tablet.SignIn', {
         'Ext.field.Email'
     ],
     config: {
+        padding:'10 10',
         tabBarPosition: 'bottom',
-
         items: [{
             xtype: 'textfield',
             name: 'name',

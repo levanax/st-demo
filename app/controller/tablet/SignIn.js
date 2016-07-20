@@ -16,8 +16,6 @@ Ext.define('TestApp.controller.tablet.SignIn', {
         control:{
             signInTabletView:{
                 initialize:function(view,eOpts) {
-                    // body...
-                    console.log('in here /as .TestApp.controller.SignIn tablet');
                 }
             },
             jumpHomeBtn:{
