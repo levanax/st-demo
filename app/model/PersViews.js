@@ -1,11 +1,16 @@
 (function() {
     /**
-     * 空检查
+     * Cofing 字段 空检查
      **/
     var emptyCheck = function(v, record) {
         if (!v) {
-            throw new Error('value is undefined .');
-        }else{
+            var fieldName = this.getName();
+            throw new Error([
+                'CONFIG ERROR : ',
+                fieldName,
+                ' is undefined .'
+            ].join(''));
+        } else {
             return v;
         }
     };
