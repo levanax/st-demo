@@ -1,12 +1,11 @@
 Ext.define('TestApp.view.phone.Index', {
     extend: 'Ext.form.Panel',
     xtype: 'indexPhoneView',
-    requires: [
-    ],
+    requires: [],
     config: {
-        padding:'10 10',
+        padding: '10 10',
         items: [{
-            xtype : 'toolbar',
+            xtype: 'toolbar',
             docked: 'top',
             title: 'Index'
         }, {
@@ -14,6 +13,12 @@ Ext.define('TestApp.view.phone.Index', {
             itemId: 'goHomeBtn',
             ui: 'forward',
             text: 'Go Home View'
+        }, {
+            margin: '10 0',
+            xtype: 'button',
+            itemId: 'goWriteLogBtn',
+            ui: 'forward',
+            text: 'Go WriteLog View'
         }]
     }
 });

@@ -5,6 +5,8 @@ Ext.define('TestApp.controller.system.Initialize', {
     do: function() {
         console.debug('in doing ...');
 
+        window.onerror = this.onErrorEmergencyMechanism; //record error
+
         this.loadModelConfig();
 
         document.addEventListener("deviceready", this.onDeviceReady, false);
@@ -21,10 +23,10 @@ Ext.define('TestApp.controller.system.Initialize', {
                 // process server response here
 
                 var execTime = new Date().getTime() - startTime;
-                console.log('耗时：'+execTime+'ms');
+                console.log('耗时：' + execTime + 'ms');
 
                 var currentPersData = {};
-                currentPersData.pattern =  'safety';
+                currentPersData.pattern = 'safety';
                 currentPersData.persViews = data.view;
 
                 // console.log(Ext.JSON.encode(currentPersData));
@@ -32,6 +34,34 @@ Ext.define('TestApp.controller.system.Initialize', {
                 var persStore = Ext.data.StoreManager.lookup('pers');
                 persStore.addData([currentPersData]);
             }
+        });
+    },
+    onErrorEmergencyMechanism: function(errorMessage, scriptURI, lineNumber, columnNumber, error) {
+        "use strict";
+        var val = {
+            message: errorMessage,
+            script: scriptURI,
+            line: lineNumber,
+            columnNumber: columnNumber,
+            error: error
+        };
+        var currentTime = Ext.Date.format(new Date(), 'Y-d-m H:i:s');
+        console.error(currentTime, arguments);
+
+        var file = scriptURI.match('app[a-zA-Z0-9\/\.]*');
+        var msg = [];
+        msg.push('file: ' + file);
+        msg.push('line: ' + lineNumber);
+        msg.push('columnNumber: ' + columnNumber);
+        msg.push('<br/>');
+        msg.push('time: ' + currentTime);
+        msg.push('<br/>');
+        msg.push(errorMessage);
+
+
+        Ext.Msg.show({
+           title: 'System Error',
+           message: msg.join(' & ')
         });
     }
 });

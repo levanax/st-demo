@@ -9,6 +9,9 @@ Ext.define('TestApp.controller.phone.WriteLog', {
                 xtype:'writeLogView'
             }
         },
+        routes:{
+            'writeLog':'goWriteLogView'
+        },
         control:{
             writeLogView:{
                 initialize:function(view,eOpts) {
@@ -16,12 +19,15 @@ Ext.define('TestApp.controller.phone.WriteLog', {
                     view.down('button').addListener({
                         tap:{
                             fn:function(button, e, eOpts){
-                                console.log(view.getValues())
+                                console.log(view.getValues());
                             }
                         }
                     })
                 }
             }
         }
+    },
+    goWriteLogView:function(){
+        this.changeView(Ext.create('TestApp.view.phone.WriteLog'));
     }
 });

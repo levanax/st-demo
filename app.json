@@ -117,6 +117,7 @@
      * Extra resources to be copied along when build
      */
     "resources": [
+        "resources/config",
         "resources/images",
         "resources/icons",
         "resources/startup"

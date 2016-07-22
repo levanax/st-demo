@@ -15,6 +15,7 @@ Ext.application({
 
     requires: [
         'Ext.MessageBox',
+        'Ext.Toast',
         'TestApp.service.User'
     ],
     icon: {

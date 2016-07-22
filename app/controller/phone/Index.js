@@ -1,19 +1,18 @@
 Ext.define('TestApp.controller.phone.Index', {
     extend: 'TestApp.controller.Base',
-    requires: [
-    ],
+    requires: [],
     config: {
-        refs:{
+        refs: {
             indexPhoneView: {
                 selector: 'indexPhoneView',
                 xtype: 'indexPhoneView'
             }
         },
-        routes:{
+        routes: {
             '': 'goIndexView'
         },
-        control:{
-            indexPhoneView:{
+        control: {
+            indexPhoneView: {
                 initialize: function(view, eOpts) {
                     view.on({
                         tap: function(button, e, eOpts) {
@@ -21,12 +20,20 @@ Ext.define('TestApp.controller.phone.Index', {
                         },
                         delegate: '> button[itemId=goHomeBtn]',
                         scope: this
-                    })
+                    });
+
+                    view.on({
+                        tap: function(button, e, eOpts) {
+                            this.redirectTo('writeLog');
+                        },
+                        delegate: '> button[itemId=goWriteLogBtn]',
+                        scope: this
+                    });
                 }
             }
         }
     },
-    goIndexView:function() {
+    goIndexView: function() {
         this.changeView(Ext.create('TestApp.view.phone.Index'));
     }
 });
