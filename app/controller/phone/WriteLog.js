@@ -1,25 +1,37 @@
 Ext.define('TestApp.controller.phone.WriteLog', {
     extend: 'TestApp.controller.Base',
-    requires: [
-    ],
+    requires: [],
     config: {
-        refs:{
-            writeLogView:{
-                selector:'writeLogView',
-                xtype:'writeLogView'
+        refs: {
+            writeLogView: {
+                selector: 'writeLogView',
+                xtype: 'writeLogView'
             }
         },
-        routes:{
-            'writeLog':'goWriteLogView'
+        routes: {
+            'writeLog': 'goWriteLogView'
         },
-        control:{
-            writeLogView:{
-                initialize:function(view,eOpts) {
-
-                    view.down('button').addListener({
-                        tap:{
-                            fn:function(button, e, eOpts){
+        control: {
+            writeLogView: {
+                initialize: function(view, eOpts) {
+                    var me = this;
+                    view.down('button[name=saveBtn]').addListener({
+                        tap: {
+                            fn: function(button, e, eOpts) {
                                 console.log(view.getValues());
+                                var string = JSON.stringify(view.getValues());
+                                
+                                me.saveNoteToStore({
+                                    content:string
+                                });
+                            }
+                        }
+                    });
+
+                    view.down('button[name=readBtn]').addListener({
+                        tap: {
+                            fn: function(button, e, eOpts) {
+                                me.readNote();
                             }
                         }
                     })
@@ -27,7 +39,24 @@ Ext.define('TestApp.controller.phone.WriteLog', {
             }
         }
     },
-    goWriteLogView:function(){
+    goWriteLogView: function() {
         this.changeView(Ext.create('TestApp.view.phone.WriteLog'));
+    },
+    test: function() {
+    },
+    /**
+    * @param file {}
+    * @param file.content
+    */
+    saveNoteToStore:function(file){
+        fileManager.writeFile({
+            path:'test.txt',
+            content:file.content
+        });
+    },
+    readNote:function(){
+        fileManager.readFile({
+            path:'test.txt'
+        });
     }
 });

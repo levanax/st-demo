@@ -40,6 +40,9 @@
      */
     "js": [
         {
+            "path": "plugins/FileManager.js"
+        },
+        {
             "path": "touch/sencha-touch.js",
             "x-bootstrap": true
         },

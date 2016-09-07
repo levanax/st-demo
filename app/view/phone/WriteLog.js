@@ -26,9 +26,15 @@ Ext.define('TestApp.view.phone.WriteLog', {
             }, {
                 margin: '10 0',
                 xtype: 'button',
-                itemId: 'saveBtn',
+                name: 'saveBtn',
                 ui: 'normal',
                 text: 'Save'
+            }, {
+                margin: '10 0',
+                xtype: 'button',
+                name: 'readBtn',
+                ui: 'normal',
+                text: 'read'
             }]
         }]
     }
