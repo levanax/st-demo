@@ -20,9 +20,9 @@ Ext.define('TestApp.controller.phone.WriteLog', {
                             fn: function(button, e, eOpts) {
                                 console.log(view.getValues());
                                 var string = JSON.stringify(view.getValues());
-                                
+
                                 me.saveNoteToStore({
-                                    content:string
+                                    content: string
                                 });
                             }
                         }
@@ -42,21 +42,23 @@ Ext.define('TestApp.controller.phone.WriteLog', {
     goWriteLogView: function() {
         this.changeView(Ext.create('TestApp.view.phone.WriteLog'));
     },
-    test: function() {
-    },
+    test: function() {},
     /**
-    * @param file {}
-    * @param file.content
-    */
-    saveNoteToStore:function(file){
+     * @param file {}
+     * @param file.content
+     */
+    saveNoteToStore: function(file) {
         fileManager.writeFile({
-            path:'test.txt',
-            content:file.content
+            path: 'test.txt',
+            content: file.content
+        }, {
+            autoCreate: true,
+            isAppend: true
         });
     },
-    readNote:function(){
+    readNote: function() {
         fileManager.readFile({
-            path:'test.txt'
+            path: 'test.txt'
         });
     }
 });
