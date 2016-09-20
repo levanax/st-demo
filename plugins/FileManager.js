@@ -3,6 +3,9 @@ var fileManager = fileManager || {};
 	var fileMgr = {};
 	fileManager = fileMgr;
 
+	var isSupportFileManager = function(){
+		return typeof LocalFileSystem !== 'undefined'; //LocalFileSystem 暂时用来判断是否支持文件操作
+	}
 	/**
 	* @param file {}
 	* @param file.fullname  test.txt
@@ -35,6 +38,10 @@ var fileManager = fileManager || {};
 	# @param callback function(){}
 	*/
 	fileMgr.writeFile = function(file, options, callback) {
+		if(!isSupportFileManager()){
+			console.debug(file.content);
+			return false;
+		}
 		// alert('file:'+JSON.stringify(file));
 		// alert('options:'+JSON.stringify(options));
 		// alert('callback:'+JSON.stringify(callback));
@@ -118,6 +125,10 @@ var fileManager = fileManager || {};
 	# @param callback function(){}
 	*/
 	fileMgr.readFile = function(file, callback) {
+		if(!isSupportFileManager()){
+			return false;
+		}
+		var $callback = callback;
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function(fs) {
 			fs.root.getFile(file.path, {},
 				function(fileEntry) {
@@ -131,16 +142,114 @@ var fileManager = fileManager || {};
 							// txtArea.value = this.result;
 							// document.body.appendChild(txtArea);
 
-							alert(JSON.stringify(this.result));
+							$callback.apply({},[{
+								status:'SUCCESS',
+								content:JSON.stringify(this.result)
+							}]);
 						};
-
 						reader.readAsText(file);
 					}, errorHandler);
-				}, errorHandler);
+				}, function(e){
+					if(e.code === FileError.NOT_FOUND_ERR){
+						$callback.apply({},[{
+							status:'FAIL',
+							message:'path: '+file.path + ' not found .'
+						}]);
+					}else{
+						errorHandler.apply({},arguments);
+					}
+				});
 		}, errorHandler);
 	}
 
+	/**
+	 *
+	 * @param directory {}
+	 * @param directory.path
+	 *
+	 * @param options {}
+	 * @param options.autoCreate
+	 *
+	 * @param callback function(){}
+     */
+	fileMgr.requestDirectory = function(directory,options, callback){
+		if(!isSupportFileManager()){
+			return false;
+		}
+		var path = directory.path;
+		var $callback = callback;
 
+		var autoCreate = false;
+		if(options.autoCreate){
+			autoCreate = true;
+		}
+
+		function createDir(rootDirEntry, folders) {
+			// Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
+			if (folders[0] == '.' || folders[0] == '') {
+				folders = folders.slice(1);
+			}
+			//alert('create : '+folders[0]);
+			if(typeof folders[0] !== 'undefined'){
+				rootDirEntry.getDirectory(folders[0], {create:true}, function(dirEntry) {
+					if (folders.length) {
+						createDir(dirEntry, folders.slice(1));
+					}else{
+						$callback.apply({},[{
+							status:'SUCCESS'
+						}]);
+					}
+				}, errorHandler);
+			}else{
+				$callback.apply({},[{
+					status:'SUCCESS'
+				}]);
+			}
+		};
+
+		function checkDir(rootDirEntry, folders){
+			if (folders[0] == '.' || folders[0] == '') {
+				folders = folders.slice(1);
+			}
+			//alert('check  : '+folders[0]);
+			rootDirEntry.getDirectory(folders[0], {}, function(dirEntry) {
+				if(dirEntry.isDirectory){
+					checkDir(dirEntry,folders.slice(1));
+
+					if (folders.length === 0){
+						$callback.apply({},[{
+							status:'SUCCESS'
+						}]);
+					}
+				}else{
+					createDir(rootDirEntry,folders);
+				}
+			}, function(e){
+				if(e.code === FileError.NOT_FOUND_ERR){
+					if(autoCreate){
+						createDir(rootDirEntry,folders);
+					}else{
+						$callback.apply({},[{
+							status:'FAIL',
+							message:'dir not found.'
+						}]);
+					}
+				}else{
+					errorHandler.apply({},arguments);
+				}
+			});
+		}
+
+		var onInitFs = function(fs){
+			checkDir(fs.root, path.split('/'));
+		}
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024*1024, onInitFs, errorHandler);
+	}
+
+
+	/**
+	 * @private
+     */
 	function errorHandler(e) {
 		var msg = '';
 
