@@ -1,10 +1,10 @@
 var fileManager = fileManager || {};
 (function () {
     /**
-     * note: 以队列形式（queue）执行写入方法
+     * 提供了 文件创建、文件写入、文件删除，目录创建、目录下文件读取 方法
      *
-     *
-     *
+     * note: 以队列形式（queue）执行写入方法，仅作记录，未实现
+     * 暂时参数全部都是 持久文件，大小也是写死 1024 * 1024 ，日后改善
      */
 
     var fileMgr = {};
@@ -14,20 +14,18 @@ var fileManager = fileManager || {};
         return typeof LocalFileSystem !== 'undefined'; //LocalFileSystem 暂时用来判断是否支持文件操作
     }
     /**
+     *
+     * @public
      * @param file {}
-     * @param file.fullname  test.txt
+     * @param file.path
+     * note：若创建 a/b/c.txt ， a/b/ 文件夹不存在会报错，请先用 requestDirectory 方法创建路径目录 再创建文件
 
      * @param file.size 1024*1024
      # @param callback function(){}
      */
     var createFile = function (file, callback) {
-
-        if (!callback) {
-            callback = function () {
-            };
-        }
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
-            fs.root.getFile(file.fullname, {
+            fs.root.getFile(file.path, {
                 create: true,
                 exclusive: true
             }, callback, errorHandler);
@@ -35,6 +33,8 @@ var fileManager = fileManager || {};
     }
 
     /**
+     *
+     * @public
      * @param file {}
      * @param file.path
      * @param file.content
@@ -69,63 +69,60 @@ var fileManager = fileManager || {};
             fsParams.create = false;
         }
 
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
-            fs.root.getFile(file.path, fsParams,
+        var createFile = function (fs, path, callback) {
+            fs.root.getFile(file.path, {
+                create: true,
+                exclusive: true
+            }, callback, errorHandler);
+        }
+
+        var writerFileFun = function(fileEntry){
+            fileEntry.createWriter(function (fileWriter) {
+                if (options.isAppend) {
+                    //在文件结尾位置附加文字
+                    fileWriter.seek(fileWriter.length);
+                }
+                fileWriter.onwriteend = function (e) {
+                    //alert('Write completed.');
+                };
+                fileWriter.onerror = function (e) {
+                    alert('Write failed: ' + e.toString());
+                };
+
+                var bb = new Blob([file.content], {
+                    type: 'text/plain'
+                });
+                fileWriter.write(bb);
+            }, errorHandler);
+        }
+
+        var initFs = function (fs) {
+            fs.root.getFile(file.path, {},
                 function (fileEntry) {
-                    fileEntry.createWriter(function (fileWriter) {
-
-                        if (options.isAppend) {
-                            //在文件结尾位置附加文字
-                            fileWriter.seek(fileWriter.length);
-                        }
-
-                        fileWriter.onwriteend = function (e) {
-                            //alert('Write completed.');
-                        };
-
-                        fileWriter.onerror = function (e) {
-                            alert('Write failed: ' + e.toString());
-                        };
-
-
-                        var bb = new Blob([file.content], {
-                            type: 'text/plain'
-                        });
-                        fileWriter.write(bb);
-                    }, errorHandler);
+                    writerFileFun(fileEntry)
                 },
                 function (e) {
-
-                    var msg = '';
-                    switch (e.code) {
-                        case FileError.QUOTA_EXCEEDED_ERR:
-                            msg = 'QUOTA_EXCEEDED_ERR';
-                            break;
-                        case FileError.NOT_FOUND_ERR:
-                            createFile({
-                                fullname: file.path
-                            }, function () {
-                                $arguments.callee($arguments[0], $arguments[1], $arguments[2]);
+                    if (e.code === FileError.NOT_FOUND_ERR) {
+                        if(options.autoCreate){
+                            createFile(fs,file.path,function(fileEntry){
+                                writerFileFun(fileEntry)
                             });
-                            break;
-                        case FileError.SECURITY_ERR:
-                            msg = 'SECURITY_ERR';
-                            break;
-                        case FileError.INVALID_MODIFICATION_ERR:
-                            msg = 'INVALID_MODIFICATION_ERR';
-                            break;
-                        case FileError.INVALID_STATE_ERR:
-                            msg = 'INVALID_STATE_ERR';
-                            break;
-                        default:
-                            msg = 'Unknown Error';
-                            break;
+                        }else{
+                            throw new Error('file not exist.');
+                        }
+                    } else {
+                        errorHandler.apply({}, arguments);
                     }
                 });
-        }, errorHandler);
+        }
+
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, initFs, errorHandler);
     }
 
     /**
+     *
+     * @public
+     *
      * @param file {}
      * @param file.path  test.txt
      # @param callback function(){}
@@ -169,7 +166,10 @@ var fileManager = fileManager || {};
     }
 
     /**
+     *
      * 删除文件
+     * @public
+     *
      * @param file {}
      * @param file.path  ''||[]
      *
@@ -180,7 +180,7 @@ var fileManager = fileManager || {};
 
         function remove(rootDirEntry, paths) {
             var path = paths.splice(0, 1)[0];
-            if(path){
+            if (path) {
                 rootDirEntry.getFile(path, {create: false}, function (fileEntry) {
                     fileEntry.remove(function () {
                         //alert('delete file'+path)
@@ -204,7 +204,7 @@ var fileManager = fileManager || {};
                         errorHandler.apply({}, arguments);
                     }
                 });
-            }else{
+            } else {
                 $callback.apply({}, [{
                     status: 'SUCCESS'
                 }]);
@@ -226,6 +226,9 @@ var fileManager = fileManager || {};
 
     /**
      * 检查目录是否存在，也可自动创建，请查看参数
+     *
+     * @public
+     *
      * @param directory {}
      * @param directory.path
      *

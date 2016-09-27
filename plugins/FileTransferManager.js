@@ -1,6 +1,7 @@
 var fileTransferManager = fileTransferManager || {};
 (function (_this) {
     /**
+     * 请查找 @public 为可调用方法
      * error.code:
      1 = FileTransferError.FILE_NOT_FOUND_ERR
      2 = FileTransferError.INVALID_URL_ERR
@@ -20,6 +21,7 @@ var fileTransferManager = fileTransferManager || {};
 
     /**
      *
+     * @private
      * @param fileURL
      * @param callbacks {}
      * @param callbacks.win
@@ -76,7 +78,8 @@ var fileTransferManager = fileTransferManager || {};
     }
 
     /**
-     *
+     * 上传文件 可指定path，或文件内存位置file:///...
+     * @public
      * @param file {}
      * @param file.path ''||[]
      * @param file.nativeURL ''||[]  @优先
@@ -84,7 +87,7 @@ var fileTransferManager = fileTransferManager || {};
      *
      * @param callbacks {}
      * @param callbacks.callback
-     * @param callbacks.onprogress
+     * @param callbacks.onprogress 上传进度，暂未处理
      *
 
      * @param ops 可选参数，请参考cordova-plugin-file-transfer
