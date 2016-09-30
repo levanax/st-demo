@@ -1,5 +1,6 @@
 var fileManager = fileManager || {};
 (function () {
+    var emptyFunction = function(){};
     /**
      * 提供了 文件创建、文件写入、文件删除，目录创建、目录下文件读取 方法
      *
@@ -23,12 +24,26 @@ var fileManager = fileManager || {};
      * @param file.size 1024*1024
      # @param callback function(){}
      */
-    var createFile = function (file, callback) {
+    fileMgr.createFile = function (file, callback) {
+        if (!isSupportFileManager()) {
+            return false;
+        }
+
+        callback = callback || emptyFunction;
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
             fs.root.getFile(file.path, {
-                create: true,
-                exclusive: true
-            }, callback, errorHandler);
+                create: true
+            }, function(fileEntry){
+                if(fileEntry.isFile === true){
+                    callback.apply({},[{
+                        status:'SUCCESS'
+                    }])
+                }else{
+                    callback.apply({},[{
+                        status:'FAIL'
+                    }])
+                }
+            }, errorHandler);
         }, errorHandler);
     }
 
@@ -42,6 +57,7 @@ var fileManager = fileManager || {};
      * @param options {}
      * @param options.autoCreate boolean
      * @param options.isAppend boolean
+     * @param options.limitMaxsize number
 
      # @param callback function(){}
      */
@@ -54,14 +70,17 @@ var fileManager = fileManager || {};
         // alert('options:'+JSON.stringify(options));
         // alert('callback:'+JSON.stringify(callback));
 
+        callback = callback || function(){};
         var $arguments = arguments;
         var $this = this;
 
         //process params
-        var options = {
+        var defaultOpt = {
             autoCreate: true,
-            isAppend: true
+            isAppend: true,
+            limitMaxsize:1024*1024*2  //2MB
         };
+        options = Object.assign(defaultOpt, options);
 
         var fsParams = {};
 
@@ -76,24 +95,43 @@ var fileManager = fileManager || {};
             }, callback, errorHandler);
         }
 
-        var writerFileFun = function(fileEntry){
-            fileEntry.createWriter(function (fileWriter) {
-                if (options.isAppend) {
-                    //在文件结尾位置附加文字
-                    fileWriter.seek(fileWriter.length);
-                }
-                fileWriter.onwriteend = function (e) {
-                    //alert('Write completed.');
-                };
-                fileWriter.onerror = function (e) {
-                    alert('Write failed: ' + e.toString());
-                };
+        var writerFileFun = function (fileEntry) {
+            if (file.content.length !== 0) {
+                fileEntry.createWriter(function (fileWriter) {
+                    /**
+                     * ref api : https://dev.w3.org/2009/dap/file-system/file-writer.html
+                     */
+                    //alert('fileWriter ' +JSON.stringify(fileWriter));
 
-                var bb = new Blob([file.content], {
-                    type: 'text/plain'
-                });
-                fileWriter.write(bb);
-            }, errorHandler);
+                    var limitMaxsize = options.limitMaxsize;
+                    // 控制文件大小
+                    var calcTotalLength = fileWriter.length + file.content.length;
+
+                    if ( calcTotalLength  < limitMaxsize ) {
+                        if (options.isAppend) {
+                            fileWriter.seek(fileWriter.length);
+                        }
+
+                        fileWriter.onwriteend = function (e) {
+                            //alert('Write completed. path'+file.path+'content'+file.content);
+                        };
+                        fileWriter.onerror = function (e) {
+                            alert('Write failed: ' + e.toString());
+                        };
+
+                        var bb = new Blob([file.content], {
+                            type: 'text/plain'
+                        });
+                        fileWriter.write(bb);
+                    }else{
+                        callback.apply({},[{
+                            status:'FAIL',
+                            code:'FILE_SIZE_OVERFLOW',
+                            message:'文件大小已满'
+                        }]);
+                    }
+                }, errorHandler);
+            }
         }
 
         var initFs = function (fs) {
@@ -103,11 +141,11 @@ var fileManager = fileManager || {};
                 },
                 function (e) {
                     if (e.code === FileError.NOT_FOUND_ERR) {
-                        if(options.autoCreate){
-                            createFile(fs,file.path,function(fileEntry){
+                        if (options.autoCreate) {
+                            createFile(fs, file.path, function (fileEntry) {
                                 writerFileFun(fileEntry)
                             });
-                        }else{
+                        } else {
                             throw new Error('file not exist.');
                         }
                     } else {
@@ -125,33 +163,38 @@ var fileManager = fileManager || {};
      *
      * @param file {}
      * @param file.path  test.txt
+     *
+     * @param options {} 预留
+     *
      # @param callback function(){}
      */
-    fileMgr.readFile = function (file, callback) {
+    fileMgr.readFile = function (file, options, callback) {
         if (!isSupportFileManager()) {
             return false;
         }
         var $callback = callback;
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
+        var read = function (fileEntry) {
+            fileEntry.file(function (file) {
+                //alert('read file :'+JSON.stringify(file));
+                var reader = new FileReader();
+                reader.onloadend = function (fileData) {
+                    //alert('read file :'+JSON.stringify(this)+' ~~  '+JSON.stringify(e));
+                    $callback.apply({}, [{
+                        status: 'SUCCESS',
+                        data: {
+                            fileDetail: file,
+                            content: this.result
+                        }
+                    }]);
+                };
+                reader.readAsText(file);
+            }, errorHandler);
+        }
+        var initFs = function (fs) {
             fs.root.getFile(file.path, {},
                 function (fileEntry) {
-                    // Get a File object representing the file,
-                    // then use FileReader to read its contents.
-                    fileEntry.file(function (file) {
-                        var reader = new FileReader();
-
-                        reader.onloadend = function (e) {
-                            // var txtArea = document.createElement('textarea');
-                            // txtArea.value = this.result;
-                            // document.body.appendChild(txtArea);
-
-                            $callback.apply({}, [{
-                                status: 'SUCCESS',
-                                content: JSON.stringify(this.result)
-                            }]);
-                        };
-                        reader.readAsText(file);
-                    }, errorHandler);
+                    // Get a File object representing the file, then use FileReader to read its contents.
+                    read(fileEntry);
                 }, function (e) {
                     if (e.code === FileError.NOT_FOUND_ERR) {
                         $callback.apply({}, [{
@@ -162,7 +205,8 @@ var fileManager = fileManager || {};
                         errorHandler.apply({}, arguments);
                     }
                 });
-        }, errorHandler);
+        }
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, initFs, errorHandler);
     }
 
     /**
@@ -243,11 +287,11 @@ var fileManager = fileManager || {};
      * data.message
      *
      * data.entries []  ? allowRetrieveFiles=true
-     * data.entries[0].obj.isFile
-     * data.entries[0].obj.isDirectory
-     * data.entries[0].obj.name
-     * data.entries[0].obj.fullPath
-     * data.entries[0].obj.nativeURL
+     * data.entries[0].isFile
+     * data.entries[0].isDirectory
+     * data.entries[0].name
+     * data.entries[0].fullPath
+     * data.entries[0].nativeURL
      *
      * --------------------------------------------------
      *
@@ -398,6 +442,6 @@ var fileManager = fileManager || {};
                 break;
         }
 
-        alert('Error: ' + msg);
+        console.error('Error: ' + msg);
     }
 })(fileManager)

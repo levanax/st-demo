@@ -96,11 +96,9 @@ var fileTransferManager = fileTransferManager || {};
 
         var tempCallbacks = {
             win: function () {
-                //alert('upload complete .');
                 run();
             },
             fail: function (e) {
-                //alert('fail 98989898 !!!!!');
                 if (e.status === 'FAIL') {
                     callbacks.callback.apply({}, [{
                         status: 'FAIL',
@@ -182,7 +180,7 @@ var fileTransferManager = fileTransferManager || {};
                 msg = 'Unknown Error';
                 break;
         }
-        alert('Error: ' + msg);
+        console.error('Error: ' + msg);
     }
 
 })(fileTransferManager);
