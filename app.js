@@ -16,7 +16,8 @@ Ext.application({
     requires: [
         'Ext.MessageBox',
         'Ext.Toast',
-        'TestApp.service.User'
+        'TestApp.service.User',
+        'PortalMobile.ux.field.Signaturefield'
     ],
     icon: {
         '57': 'resources/icons/Icon.png',

@@ -3,9 +3,9 @@ Ext.define('TestApp.view.Home', {
     xtype: 'homeView',
     requires: [],
     config: {
-        padding:'10 10',
+        padding: '10 10',
         items: [{
-            xtype : 'toolbar',
+            xtype: 'toolbar',
             docked: 'top',
             title: 'Home'
         }, {
@@ -14,11 +14,21 @@ Ext.define('TestApp.view.Home', {
             ui: 'forward',
             text: 'SignOn by nomal'
         }, {
-            margin:'10 0',
+            margin: '10 0',
             xtype: 'button',
             itemId: 'safetySignOn',
             ui: 'forward',
             text: 'SignOn by safety'
+        }, {
+            xtype: 'fieldset',
+            items: [{
+                xtype: 'signaturefield',
+                id: 'signatureField',
+                sigWidth: 350,
+                sigHeight: 150,
+                label: 'Enter Signature',
+                labelWidth: '20%'
+            }]
         }]
     }
 });
