@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+<script>
+/*
+AOP
+Function.prototype.before = function(beforeFn){
+    var _self = this;
+    return function(){
+        beforeFn.apply(this,arguments); // 先提前调用 before方法
+        return _self.apply(this,arguments); // 返回自身对象。
+    }
+}
+
+Function.prototype.after = function(afterFn){
+    var _self = this;
+    return function(){
+        var ret = _self.apply(this,arguments); // 先执行自身
+        afterFn.apply(this,arguments); // 执行后续方法
+        return ret; // 返回自身对象
+    }
+}
+
+var test = function(){
+    console.log('hello');
+}
+
+test = test.after(function(){
+    console.log('after');
+})
+
+test = test.before(function(){
+    console.log('before');
+});*/
+
+/*var each = function(array,callback){
+    for(var i=0;i<array.length;i++){
+        callback.call(array[i],i,array[i]);
+    }
+}
+
+var list = ['1','b','c','d'];
+each(list,function(i,v){
+    console.debug(i,v)
+});*/
+
+/*
+单例模式
+http://stackoverflow.com/questions/1635800/javascript-best-singleton-pattern
+
+function MySingletonClass () {
+
+  if (arguments.callee._singletonInstance) {
+    return arguments.callee._singletonInstance;
+  }
+
+  arguments.callee._singletonInstance = this;
+
+  this.Foo = function () {
+    // ...
+  };
+}
+
+var a = new MySingletonClass();
+var b = new MySingletonClass();
+console.log( a, a === b ); 
+*/
+/*
+"use strict";
+var MySingletonClass = function () {
+
+    if (MySingletonClass.prototype._singletonInstance) {
+      return MySingletonClass.prototype._singletonInstance;
+    }
+
+    MySingletonClass.prototype._singletonInstance = this;
+
+    this.Foo = function() {
+      // ...
+    };
+  };
+
+var a = new MySingletonClass();
+var b = new MySingletonClass();
+
+console.debug(a, a === b)
+*/
+
+var test = (function(){
+    this.i = null;
+    return function(){
+        
+        return 'vvvvvvvvvvvv'
+    }
+})();
+
+var a = test();
+console.debug(a)
+
+</script>
+</html>

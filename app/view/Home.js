@@ -29,6 +29,12 @@ Ext.define('TestApp.view.Home', {
                 label: 'Enter Signature',
                 labelWidth: '20%'
             }]
+        }, {
+            margin: '10 0',
+            xtype: 'button',
+            itemId: 'camera',
+            ui: 'forward',
+            text: 'Camera'
         }]
     }
 });
