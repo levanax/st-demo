@@ -8,11 +8,35 @@ Ext.define('TestApp.controller.system.Initialize', {
         window.onerror = this.onErrorEmergencyMechanism; //record error
 
         this.loadModelConfig();
+        this.loadUpgrade();
 
         document.addEventListener("deviceready", this.onDeviceReady, false);
     },
     onDeviceReady: function() {
-        // alert(requestFileSystem);
+        var uuid = device.uuid;
+        Ext.Msg.alert(uuid);
+
+        document.addEventListener("pause", onPause, false);
+        document.addEventListener("resume", onResume, false);
+        document.addEventListener("menubutton", onMenuKeyDown, false);
+
+        function onPause() {
+            // Handle the pause event
+            // alert('onPause');
+        }
+
+        function onResume() {
+            // Handle the resume event
+            // alert('onResume');
+        }
+
+        function onMenuKeyDown() {
+            // Handle the menubutton event
+            // alert('onMenuKeyDown');
+        }
+    },
+    loadUpgrade: function() {
+
     },
     loadModelConfig: function() {
         var startTime = new Date().getTime();
@@ -60,8 +84,8 @@ Ext.define('TestApp.controller.system.Initialize', {
 
 
         Ext.Msg.show({
-           title: 'System Error',
-           message: msg.join(' & ')
+            title: 'System Error',
+            message: msg.join(' & ')
         });
     }
 });

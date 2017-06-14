@@ -41,6 +41,12 @@
      */
     "js": [
         {
+            "path": "plugins/moment.min.js"
+        },
+        {
+            "path": "plugins/Upgrade.js"
+        },
+        {
             "path": "plugins/FileManager.js"
         },
         {

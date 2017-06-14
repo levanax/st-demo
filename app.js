@@ -9,6 +9,11 @@
     changes and its generated code, it will produce a "merge conflict" that you
     will need to resolve manually.
 */
+var Constant = {
+    FORMAT: {
+        DATE_LOG: "YYYYMMDDHHmmss"
+    }
+}
 
 Ext.application({
     name: 'TestApp',
@@ -41,7 +46,8 @@ Ext.application({
         'Pers'
     ],
     stores: [
-        'Pers'
+        'Pers',
+        'TestApp.store.DataSyncServerDate'
     ],
 
     isIconPrecomposed: true,
@@ -55,7 +61,9 @@ Ext.application({
         '1496x2048': 'resources/startup/1496x2048.png'
     },
     profiles: ['Phone', 'Tablet'],
-    launch: function() {},
+    launch: function() {
+        console.debug('in here..');
+    },
 
 
     onUpdated: function() {
