@@ -4,12 +4,46 @@ Ext.define('TestApp.view.Home', {
     requires: [],
     config: {
         scrollable: true,
-        fullscreen:true,
+        fullscreen: true,
         padding: '10 10',
         items: [{
             xtype: 'toolbar',
             docked: 'top',
             title: 'Home'
+        }, {
+            margin: '10 0',
+            xtype: 'fieldset',
+            title: 'About TouchID',
+            instructions: '测试TOUCH ID',
+            items: [{
+                xtype: 'button',
+                margin: '10 0',
+                itemId: 'registerTouchIDBtn',
+                text: '登记touchID'
+            }, {
+                xtype: 'button',
+                margin: '10 0',
+                itemId: 'verifyTouchIDBtn',
+                text: '验证TouchID'
+            }]
+        }, {
+            margin: '10 0',
+            xtype: 'button',
+            itemId: 'secureStorageSet',
+            ui: 'forward',
+            text: 'secure Storage Set'
+        }, {
+            margin: '10 0',
+            xtype: 'button',
+            itemId: 'secureStorageGet',
+            ui: 'forward',
+            text: 'secure Storage Get'
+        }, {
+            margin: '10 0',
+            xtype: 'button',
+            itemId: 'pinDialog',
+            ui: 'forward',
+            text: 'pin  Dialog'
         }, {
             margin: '10 0',
             xtype: 'button',
@@ -116,6 +150,29 @@ Ext.define('TestApp.view.Home', {
             itemId: 'touchID6',
             ui: 'forward',
             text: '刪除加密. android6.0+ '
+        }, {
+            xtype: 'fieldset',
+            title: 'cordova-plugin-keychain-touch-id',
+            instructions: 'end cordova-plugin-keychain-touch-id',
+            items: [{
+                margin: '10 0',
+                xtype: 'button',
+                itemId: 'touchID7',
+                ui: 'forward',
+                text: '登记touch ID'
+            }, {
+                margin: '10 0',
+                xtype: 'button',
+                itemId: 'touchID8',
+                ui: 'forward',
+                text: '取消登记touch ID'
+            }, {
+                margin: '10 0',
+                xtype: 'button',
+                itemId: 'touchID9',
+                ui: 'forward',
+                text: 'clear touch ID'
+            }]
         }]
     }
 });

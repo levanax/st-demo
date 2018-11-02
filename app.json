@@ -41,6 +41,9 @@
      */
     "js": [
         {
+            "path": "plugins/socket.io.js"
+        },
+        {
             "path": "plugins/moment.min.js"
         },
         {
@@ -48,6 +51,9 @@
         },
         {
             "path": "plugins/FileManager.js"
+        },
+        {
+            "path": "plugins/CordovaDeviceMannager.js"
         },
         {
             "path": "touch/sencha-touch.js",

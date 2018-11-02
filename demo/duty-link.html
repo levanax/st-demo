@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+</body>
+<script>
+"use strict";
+function CreateDOM(obj){
+  this.next = obj || null;
+};  
+CreateDOM.prototype = {
+  handle: function(){
+    if(this.next){
+      this.next.handle();
+    }
+  }
+};
+
+var li = null, 
+  ul = null, 
+  div = null;
+div = new CreateDOM();
+div.handle = function(stopBubble){
+  console.log('DIV');
+  if(stopBubble){
+    return;    
+  }else{
+    CreateDOM.prototype.handle.call(this);
+  }
+};
+ul = new CreateDOM(div);
+ul.handle = function(stopBubble){
+  console.log('UL');
+  if(stopBubble){
+    return;    
+  }else{
+    CreateDOM.prototype.handle.call(this);
+  }
+};
+li = new CreateDOM(ul);
+li.handle = function(stopBubble){
+  console.log('LI');
+  if(stopBubble){
+    return;    
+  }else{
+    CreateDOM.prototype.handle.call(this);
+  }
+};
+
+</script>
+</html>

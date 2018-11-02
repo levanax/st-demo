@@ -1,0 +1,8 @@
+/build/*
+/gulp/node_modules/*
+/resources/sass/*
+/resources/loading/*
+/resources/startup/*
+/node_modules/*
+/.sencha/*
+/touch/*

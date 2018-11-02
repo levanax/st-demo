@@ -9,6 +9,11 @@
     changes and its generated code, it will produce a "merge conflict" that you
     will need to resolve manually.
 */
+function alert(msg){
+    console.debug(msg)
+    Ext.toast(msg);
+}
+
 var Constant = {
     FORMAT: {
         DATE_LOG: "YYYYMMDDHHmmss"
@@ -32,14 +37,10 @@ Ext.application({
     },
     controllers: [
         'system.Initialize',
-        'Home',
-        'SignOnByNomal',
-        'SignOnBySafety'
+        'Home'
     ],
     views: [
         'Home',
-        'SignOnByNomal',
-        'SignOnBySafety'
     ],
     models: [
         'PersViews',

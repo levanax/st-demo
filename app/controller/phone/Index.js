@@ -9,7 +9,7 @@ Ext.define('TestApp.controller.phone.Index', {
             }
         },
         routes: {
-            '': 'goIndexView'
+            'index': 'goIndexView'
         },
         control: {
             indexPhoneView: {

@@ -7,6 +7,7 @@
 <body>
 </body>
 <script>
+"use strict"
 /*
 AOP
 Function.prototype.before = function(beforeFn){
@@ -70,37 +71,51 @@ var a = new MySingletonClass();
 var b = new MySingletonClass();
 console.log( a, a === b ); 
 */
-/*
-"use strict";
-var MySingletonClass = function () {
 
-    if (MySingletonClass.prototype._singletonInstance) {
-      return MySingletonClass.prototype._singletonInstance;
-    }
+// "use strict";
+// var MySingletonClass = function () {
 
-    MySingletonClass.prototype._singletonInstance = this;
+//     if (MySingletonClass.prototype._singletonInstance) {
+//       return MySingletonClass.prototype._singletonInstance;
+//     }
 
-    this.Foo = function() {
-      // ...
-    };
-  };
+//     MySingletonClass.prototype._singletonInstance = this;
 
-var a = new MySingletonClass();
-var b = new MySingletonClass();
+//     this.Foo = function() {
+//       // ...
+//     };
+//   };
 
-console.debug(a, a === b)
-*/
+// var a = new MySingletonClass();
+// var b = new MySingletonClass();
 
-var test = (function(){
-    this.i = null;
-    return function(){
+// console.debug(a, a === b)
+
+
+// var test = (function(){
+//     this.i = null;
+//     return function(){
         
-        return 'vvvvvvvvvvvv'
-    }
-})();
+//         return 'vvvvvvvvvvvv'
+//     }
+// })();
 
-var a = test();
-console.debug(a)
+// var a = test();
+// console.debug(a)
+/*
+不建议扩展 原生对象的 方法及属性
+var testArray = (function(){
 
+})()
+
+Array.prototype.test = function(){
+  var array = this;
+  for(var i = 0 ,length = array.length;i<length;i++){
+    console.debug(array[i]);
+  }
+}
+var a = [1,2];
+a.test()
+*/
 </script>
 </html>

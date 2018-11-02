@@ -1,0 +1,51 @@
+Sencha Cmd v6.1.3.42
+[INF] Processing Build Descriptor : default
+[WRN] the following remote package repository directories did not initialize properly :
+[WRN] 	 - C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo\.sencha\repo\remotes\sencha
+[WRN] Consider removing the local package repository directory at : C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo
+[WRN] It will be recreated dynamically when next needed
+[WRN] the following remote package repository directories did not initialize properly :
+[WRN] 	 - C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo\.sencha\repo\remotes\sencha
+[WRN] Consider removing the local package repository directory at : C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo
+[WRN] It will be recreated dynamically when next needed
+[WRN] the following remote package repository directories did not initialize properly :
+[WRN] 	 - C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo\.sencha\repo\remotes\sencha
+[WRN] Consider removing the local package repository directory at : C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo
+[WRN] It will be recreated dynamically when next needed
+[WRN] the following remote package repository directories did not initialize properly :
+[WRN] 	 - C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo\.sencha\repo\remotes\sencha
+[WRN] Consider removing the local package repository directory at : C:\Users\levana.xue.2GOTECH\bin\Sencha\Cmd\repo
+[WRN] It will be recreated dynamically when next needed
+[INF] Loading app json manifest...
+[WRN] C1000: Rhino Parse Warning (Trailing comma is not legal in an ECMA-262 object initializer =>         },) -- D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\app\controller\Home.js:18:9
+[WRN] C1000: Rhino Parse Warning (Trailing comma is not legal in an ECMA-262 object initializer =>                     });) -- D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\app\controller\Home.js:46:21
+[INF] Writing output to file D:\Levana.Xue\WebAppSpace\TestSpace\TestApp/build/temp/testing/TestApp/sencha-compiler/cmd-packages.js
+[INF] writing content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] Appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.json
+[INF] Writing concatenated output to file D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\app.js
+[INF] merging 0 input resources into D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\resources
+[INF] merged 0 resources into D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\resources
+[INF] merging 17 input resources into D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp
+[INF] merged 0 resources into D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp
+[INF] writing content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\sass\example\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\sass\example\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\sass\example\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\sass\example\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\sass\example\bootstrap.js
+[INF] executing compass using system installed ruby runtime
+identical ../css/app.css 
+[INF] writing content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.js
+[INF] Appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\bootstrap.json
+[INF] Copying page resources to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp
+[INF] Writing content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\microloader.js
+[INF] Appending content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\microloader.js
+[INF] Building output markup to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp/build/testing/TestApp/index.html
+[INF] Writing content to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp\build\testing\TestApp\index.html
+[INF] generating cache manifest to D:\Levana.Xue\WebAppSpace\TestSpace\TestApp/build/testing/TestApp/cache.appcache
+

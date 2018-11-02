@@ -2,11 +2,18 @@ Ext.define('TestApp.controller.Home', {
     extend: 'TestApp.controller.Base',
     requires: [],
     config: {
+        secureStorageManager: undefined,
         refs: {
             homeView: {
                 selector: 'homeView',
                 xtype: 'homeView'
             },
+            registerTouchIDBtn: 'button[itemId=registerTouchIDBtn]',
+            verifyTouchIDBtn: 'button[itemId=verifyTouchIDBtn]',
+
+            secureStorageSet: 'button[itemId=secureStorageSet]',
+            secureStorageGet: 'button[itemId=secureStorageGet]',
+            pinDialog: 'button[itemId=pinDialog]',
             androidVerifyFingerprintLogin: 'button[itemId=androidVerifyFingerprintLogin]',
             checkScreenLock2Btn: 'button[itemId=checkScreenLock2Btn]',
             checkScreenLockBtn: 'button[itemId=checkScreenLockBtn]',
@@ -23,11 +30,145 @@ Ext.define('TestApp.controller.Home', {
             touchIDBtn4: 'button[itemId=touchID4]',
             touchIDBtn5: 'button[itemId=touchID5]',
             touchIDBtn6: 'button[itemId=touchID6]',
+            touchIDBtn7: 'button[itemId=touchID7]',
+            touchIDBtn8: 'button[itemId=touchID8]',
+            touchIDBtn9: 'button[itemId=touchID9]',
         },
         routes: {
             'home': 'goHomeView'
         },
         control: {
+            registerTouchIDBtn: {
+                tap: function() {
+                    CordovaDeviceMannager.isScreenLockEnabled(function(data) {
+                        if (data.isEnabled) {
+                            CordovaDeviceMannager.isAvailableFingerprint(function(data) {
+                                if (data.isAvailable) {
+                                    CordovaDeviceMannager.encryptFingerprint({
+                                        password: '0011223344'
+                                    }, function(data) {
+                                        if (data.isSuccess) {
+                                            localStorage.setItem('pwdToken', data.token);
+                                            alert('登记成功！');
+                                        } else {
+                                            switch (data.error) {
+                                                case 'FINGERPRINT_CANCELLED':
+                                                    alert('取消验证');
+                                                    break;
+                                                case 'FINGERPRINT_ERROR':
+                                                    alert('验证错误，超过最大次数，请稍候再试');
+                                                    break;
+                                                default:
+                                                    alert('encryptFingerprint error' + data.error);
+                                                    break;
+                                            }
+                                        }
+                                    }, {
+                                        scope: this,
+                                        dialogTitle: 'test title',
+                                        dialogMessage: '请验证指纹'
+                                    });
+                                } else {
+                                    alert('isAvailableFingerprint error: ' + data.error);
+                                }
+                            }, {
+                                scope: this
+                            });
+                        } else {
+                            alert('screenLock error: ' + data.error);
+                        }
+                    }, {
+                        scope: this
+                    });
+                }
+            },
+            verifyTouchIDBtn: {
+                tap: function() {
+                    CordovaDeviceMannager.isScreenLockEnabled(function(data) {
+                        if (data.isEnabled) {
+                            CordovaDeviceMannager.isAvailableFingerprint(function(data) {
+                                if (data.isAvailable) {
+                                    var pwdToken = localStorage.getItem('pwdToken');
+                                    CordovaDeviceMannager.decryptFingerprint({
+                                        token: pwdToken
+                                    }, function(data) {
+                                        if (data.isSuccess) {
+                                            alert('验证通过！' + data.password);
+                                        } else {
+                                            if (data.isChanged) {
+                                                alert('指纹已变更');
+                                            } else {
+                                                switch (data.error) {
+                                                    case 'FINGERPRINT_CANCELLED':
+                                                        alert('取消验证');
+                                                        break;
+                                                    case 'FINGERPRINT_ERROR':
+                                                        alert('验证错误，超过最大次数，请稍候再试');
+                                                        break;
+                                                    default:
+                                                        alert('encryptFingerprint error' + data.error);
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                    }, {
+                                        scope: this,
+                                        dialogTitle: 'test title',
+                                        dialogMessage: '请验证指纹'
+                                    });
+                                } else {
+                                    alert('isAvailableFingerprint error: ' + data.error);
+                                }
+                            }, {
+                                scope: this
+                            });
+                        } else {
+                            alert('screenLock error: ' + data.error);
+                        }
+                    }, {
+                        scope: this
+                    });
+                }
+            },
+            secureStorageSet: {
+                tap: function() {
+                    var secureStorageManager = this.getSecureStorageManager();
+                    secureStorageManager.set(
+                        function(key) {
+                            alert('Set ' + key);
+                        },
+                        function(error) {
+                            alert('Error ' + error);
+                        },
+                        'levan', '411114');
+                }
+            },
+            secureStorageGet: {
+                tap: function() {
+                    var secureStorageManager = this.getSecureStorageManager();
+                    secureStorageManager.get(
+                        function(value) {
+                            alert('Success, got ' + value);
+                        },
+                        function(error) {
+                            alert('Error ' + error);
+                        },
+                        'levan');
+                }
+            },
+            pinDialog: function() {
+                function callback(results) {
+                    if (results.buttonIndex == 1) {
+                        // OK clicked, show input value
+                        alert(results.input1);
+                    }
+                    if (results.buttonIndex == 2) {
+                        // Cancel clicked
+                        alert("Cancel");
+                    }
+                };
+                window.plugins.pinDialog.prompt("message", callback, "title", ["OK", "Cancel"]);
+            },
             androidVerifyFingerprintLogin: {
                 tap: function() {
                     var verifyFingerprintAuth = function() {
@@ -359,6 +500,43 @@ Ext.define('TestApp.controller.Home', {
                     function isAvailableError(message) {
                         throw new Error("isAvailableError(): " + message);
                     }
+                }
+            },
+            touchIDBtn7: {
+                tap: function() {
+                    window.plugins.touchid.isAvailable(function(biometryType) {
+                        var serviceName = (biometryType === "face") ? "Face ID" : "Touch ID";
+                        window.plugins.touchid.has("MyKey", function() {
+                            Ext.toast(serviceName + " avaialble and Password key available");
+                        }, function() {
+                            Ext.toast(serviceName + " available but no Password Key available");
+                        });
+                    }, function(msg) {
+                        Ext.toast("isAvailable： "+msg);
+                    });
+                    window.plugins.touchid.save("MyKey", "1234567890", function() {
+                        Ext.toast("Password saved");
+                    }, function(msg) {
+                        Ext.toast(msg);
+                    });
+                }
+            },
+            touchIDBtn8: {
+                tap: function() {
+                    window.plugins.touchid.verify("MyKey", "My Message", function(password) {
+                        Ext.toast("Touch " + password);
+                    }, function(msg) {
+                        Ext.toast("error：" + msg);
+                    });
+                }
+            },
+            touchIDBtn9: {
+                tap: function() {
+                    window.plugins.touchid.delete("MyKey", function() {
+                        Ext.toast("Password key deleted");
+                    }, function(msg) {
+                        Ext.toast("error：" + msg);
+                    });
                 }
             },
             homeView: {
